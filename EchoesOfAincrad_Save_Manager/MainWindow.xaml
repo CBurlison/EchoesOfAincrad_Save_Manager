@@ -1,0 +1,28 @@
+﻿<Window x:Class="EchoesOfAincrad_Save_Manager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EchoesOfAincrad_Save_Manager"
+        mc:Ignorable="d"
+        Title="EoA Save Manager" Height="342" Width="815">
+    <Window.Resources>
+        <CollectionViewSource x:Key="BackupListCollectionViewSource" Source="{Binding BackupList}" />
+    </Window.Resources>
+    <Grid>
+        <ComboBox x:Name="ProfileList" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" Width="215"/>
+        <Button x:Name="AddProfileButton" Content="+" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="20"/>
+        <Button x:Name="RemoveProfileButton" Content="-" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top" Width="20"/>
+        <Button x:Name="ForceBackupButton" Content="Backup" HorizontalAlignment="Left" Margin="280,10,0,0" VerticalAlignment="Top" Width="56"/>
+        <Label x:Name="TimerLabel" HorizontalAlignment="Left" Margin="599,7,0,0" VerticalAlignment="Top" Width="69" Content="Stopped" Height="27"></Label>
+        <DataGrid x:Name="SaveGrid" Margin="10,37,10,10" ItemsSource="{Binding Source={StaticResource BackupListCollectionViewSource}}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="File Time" Binding="{Binding Path='Time'}" Width="Auto"/>
+                <DataGridTextColumn Header="File Name" Binding="{Binding Path='File'}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="734,10,0,0" VerticalAlignment="Top" Width="56"/>
+        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="673,10,0,0" VerticalAlignment="Top" Width="56"/>
+        <Button x:Name="LoadButton" Content="Load" HorizontalAlignment="Left" Margin="344,10,0,0" VerticalAlignment="Top" Width="56"/>
+    </Grid>
+</Window>
