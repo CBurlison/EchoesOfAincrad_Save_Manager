@@ -38,7 +38,6 @@ namespace EchoesOfAincrad_Save_Manager
             LoadProfiles();
             PopulateProfileList();
             LoadBackups();
-            AssignButtons();
             _saveInfo.BackupList = new(_saveInfo.BackupList.OrderByDescending(a => a.BackupTime));
         }
 
@@ -50,15 +49,6 @@ namespace EchoesOfAincrad_Save_Manager
             }
 
             ProfileList.SelectedItem = GetActiveProfile();
-        }
-
-        private void AssignButtons()
-        {
-            StartButton.Click += StartButton_Click;
-            StopButton.Click += StopButton_Click;
-            ForceBackupButton.Click += ForceBackupButton_Click;
-
-            ProfileList.SelectionChanged += ProfileList_SelectionChanged;
         }
 
         private void ProfileList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

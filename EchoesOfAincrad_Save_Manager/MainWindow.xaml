@@ -10,10 +10,10 @@
         <CollectionViewSource x:Key="BackupListCollectionViewSource" Source="{Binding BackupList}" />
     </Window.Resources>
     <Grid>
-        <ComboBox x:Name="ProfileList" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" Width="215"/>
+        <ComboBox x:Name="ProfileList" SelectionChanged="ProfileList_SelectionChanged" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" Width="215"/>
         <Button x:Name="AddProfileButton" Content="+" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="20"/>
         <Button x:Name="RemoveProfileButton" Content="-" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top" Width="20"/>
-        <Button x:Name="ForceBackupButton" Content="Backup" HorizontalAlignment="Left" Margin="280,10,0,0" VerticalAlignment="Top" Width="56"/>
+        <Button x:Name="ForceBackupButton" Click="ForceBackupButton_Click" Content="Backup" HorizontalAlignment="Left" Margin="280,10,0,0" VerticalAlignment="Top" Width="56"/>
         <Label x:Name="TimerLabel" HorizontalAlignment="Left" Margin="599,7,0,0" VerticalAlignment="Top" Width="69" Content="Stopped" Height="27"></Label>
         <DataGrid x:Name="SaveGrid" Margin="10,37,10,10" ItemsSource="{Binding Source={StaticResource BackupListCollectionViewSource}}" AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -22,8 +22,8 @@
                 <DataGridTextColumn Header="File Name" Binding="{Binding Path='File'}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="734,10,0,0" VerticalAlignment="Top" Width="56"/>
-        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="673,10,0,0" VerticalAlignment="Top" Width="56"/>
+        <Button x:Name="StartButton" Content="Start" Click="StartButton_Click" HorizontalAlignment="Left" Margin="734,10,0,0" VerticalAlignment="Top" Width="56"/>
+        <Button x:Name="StopButton" Content="Stop" Click="StopButton_Click" HorizontalAlignment="Left" Margin="673,10,0,0" VerticalAlignment="Top" Width="56"/>
         <Button x:Name="LoadButton" Content="Load" HorizontalAlignment="Left" Margin="344,10,0,0" VerticalAlignment="Top" Width="56"/>
     </Grid>
 </Window>
