@@ -39,6 +39,7 @@ namespace EchoesOfAincrad_Save_Manager
             PopulateProfileList();
             LoadBackups();
             AssignButtons();
+            _saveInfo.BackupList = new(_saveInfo.BackupList.OrderByDescending(a => a.BackupTime));
         }
 
         private void PopulateProfileList()
@@ -148,7 +149,7 @@ namespace EchoesOfAincrad_Save_Manager
             foreach (var file in Directory.GetFiles(GetActiveProfileDir()))
             {
                 if (file.Contains(_saveFile))
-                    _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(file).ToString(), file));
+                    _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(file), File.GetCreationTime(file), file));
             }
         }
 
@@ -166,7 +167,7 @@ namespace EchoesOfAincrad_Save_Manager
                     continue;
 
                 File.Copy(savePath, newFile);
-                _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(newFile).ToString(), newFile));
+                _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(newFile), File.GetCreationTime(newFile), newFile));
                 return;
             }
 
@@ -203,7 +204,7 @@ namespace EchoesOfAincrad_Save_Manager
 
             var maxFile = string.Format(path, maxSaves.ToString());
             File.Copy(savePath, maxFile);
-            _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(maxFile).ToString(), maxFile));
+            _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(maxFile), File.GetCreationTime(maxFile), maxFile));
         }
 
         private void CreateDefaultProfiles()

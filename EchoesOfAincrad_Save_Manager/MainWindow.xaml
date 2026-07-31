@@ -17,7 +17,8 @@
         <Label x:Name="TimerLabel" HorizontalAlignment="Left" Margin="599,7,0,0" VerticalAlignment="Top" Width="69" Content="Stopped" Height="27"></Label>
         <DataGrid x:Name="SaveGrid" Margin="10,37,10,10" ItemsSource="{Binding Source={StaticResource BackupListCollectionViewSource}}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="File Time" Binding="{Binding Path='Time'}" Width="Auto"/>
+                <DataGridTextColumn SortDirection="Descending" Header="Backup Time" Binding="{Binding Path='BackupTime'}" Width="Auto"/>
+                <DataGridTextColumn Header="Save Time" Binding="{Binding Path='SaveTime'}" Width="Auto"/>
                 <DataGridTextColumn Header="File Name" Binding="{Binding Path='File'}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
