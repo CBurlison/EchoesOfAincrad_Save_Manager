@@ -9,11 +9,11 @@ namespace EchoesOfAincrad_Save_Manager.Models
 {
     public class Settings
     {
-        public static string DefaultGameSavesPath = Path.Combine(Environment.ExpandEnvironmentVariables("%LocalAppData%"), "EchoesofAincrad", "Saved", "SaveGames");
-        public static string DefaultDataDir = "SaveGames";
+        public static readonly string DefaultGameSavesPath = Path.Combine(Environment.ExpandEnvironmentVariables("%LocalAppData%"), "EchoesofAincrad", "Saved", "SaveGames");
+        public const string DEFAULT_DATA_DIR = "SaveGames";
 
-        public static int DefaultMaxSaves = 100;
-        public static int DefaultBackupInterval = 300;
+        public const int DEFAULT_MAX_SAVES = 100;
+        public const int DEFAULT_BACKUP_INTERVAL = 300;
 
         public int MaxSaves { get; set; }
         public int BackupInterval { get; set; }
@@ -22,10 +22,10 @@ namespace EchoesOfAincrad_Save_Manager.Models
 
         public Settings()
         {
-            MaxSaves = DefaultMaxSaves;
-            BackupInterval = DefaultBackupInterval;
+            MaxSaves = DEFAULT_MAX_SAVES;
+            BackupInterval = DEFAULT_BACKUP_INTERVAL;
             GameSavesPath = DefaultGameSavesPath;
-            DataDir = DefaultDataDir;
+            DataDir = DEFAULT_DATA_DIR;
         }
 
         public static Settings FromFile(string filename)

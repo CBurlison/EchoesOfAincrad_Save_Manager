@@ -7,9 +7,9 @@ namespace EchoesOfAincrad_Save_Manager.Models
 {
     public class Profiles
     {
-        public static string DefaultProfile = "Main";
+        public const string DEFAULT_PROFILE = "Main";
 
-        public string ActiveProfile { get; set; } = DefaultProfile;
+        public string ActiveProfile { get; set; } = DEFAULT_PROFILE;
         public List<string> Data { get; set; } = ["Main"];
     }
 }

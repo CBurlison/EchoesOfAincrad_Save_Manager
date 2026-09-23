@@ -10,11 +10,10 @@ namespace EchoesOfAincrad_Save_Manager
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static string _settingsFile = "Settings.json";
-        private static string _saveFile = "SaveData.sav";
-        private static string _backupSaveFileFormat = "SaveData.sav.{0}";
-
-        private readonly string _profilesFile = "Profiles.json";
+        private const string SATTINGS_FILE = "Settings.json";
+        private const string SAVE_FILE = "SaveData.sav";
+        private const string BACKUP_SAVE_FILE_FORMAT = "SaveData.sav.{0}";
+        private const string PROFILES_FILE = "Profiles.json";
 
         private string _profileFilePath = string.Empty;
         private Profiles? _profiles;
@@ -28,7 +27,7 @@ namespace EchoesOfAincrad_Save_Manager
         {
             InitializeComponent();
 
-            _settings = Settings.FromFile(_settingsFile);
+            _settings = Settings.FromFile(SATTINGS_FILE);
 
             DataContext = _saveInfo;
 
@@ -74,7 +73,7 @@ namespace EchoesOfAincrad_Save_Manager
 
         private void LoadProfiles()
         {
-            _profileFilePath = Path.Combine(_settings.DataDir, _profilesFile);
+            _profileFilePath = Path.Combine(_settings.DataDir, PROFILES_FILE);
 
             if (!File.Exists(_profileFilePath))
             {
@@ -122,7 +121,7 @@ namespace EchoesOfAincrad_Save_Manager
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            var backupInterval = _profiles is not null ? _settings.BackupInterval : Settings.DefaultBackupInterval;
+            var backupInterval = _profiles is not null ? _settings.BackupInterval : Settings.DEFAULT_BACKUP_INTERVAL;
 
             _timer = new();
             _timer.Interval = new(0, 0, backupInterval);
@@ -138,16 +137,27 @@ namespace EchoesOfAincrad_Save_Manager
         {
             foreach (var file in Directory.GetFiles(GetActiveProfileDir()))
             {
-                if (file.Contains(_saveFile))
-                    _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(file), File.GetCreationTime(file), file));
+                if (file.Contains(SAVE_FILE))
+                {
+                    AddSaveToBackup(file);
+                }
             }
+        }
+
+        private void AddSaveToBackup(string file)
+        {
+            var lastWrite = File.GetLastWriteTime(file);
+            var creation = File.GetCreationTime(file);
+            var saveFile = SaveFile.New(lastWrite, creation, file);
+
+            _saveInfo.BackupList.Add(saveFile);
         }
 
         private void BackupSave()
         {
-            var savePath = Path.Combine(_settings.GameSavesPath, _saveFile);
-            var path = Path.Combine(GetActiveProfileDir(), _backupSaveFileFormat);
-            var maxSaves = _profiles is not null ? _settings.MaxSaves : Settings.DefaultMaxSaves;
+            var savePath = Path.Combine(_settings.GameSavesPath, SAVE_FILE);
+            var path = Path.Combine(GetActiveProfileDir(), BACKUP_SAVE_FILE_FORMAT);
+            var maxSaves = _profiles is not null ? _settings.MaxSaves : Settings.DEFAULT_MAX_SAVES;
 
             for (int i = 1; i <= maxSaves; i++)
             {
@@ -157,7 +167,8 @@ namespace EchoesOfAincrad_Save_Manager
                     continue;
 
                 File.Copy(savePath, newFile);
-                _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(newFile), File.GetCreationTime(newFile), newFile));
+
+                AddSaveToBackup(newFile);
                 return;
             }
 
@@ -167,7 +178,7 @@ namespace EchoesOfAincrad_Save_Manager
 
             foreach (var save in _saveInfo.BackupList)
             {
-                if (!save.File.Equals(_saveFile))
+                if (!save.File.Equals(SAVE_FILE))
                     continue;
 
                 oneSav = save;
@@ -194,7 +205,8 @@ namespace EchoesOfAincrad_Save_Manager
 
             var maxFile = string.Format(path, maxSaves.ToString());
             File.Copy(savePath, maxFile);
-            _saveInfo.BackupList.Add(SaveFile.New(File.GetLastWriteTime(maxFile), File.GetCreationTime(maxFile), maxFile));
+
+            AddSaveToBackup(maxFile);
         }
 
         private void CreateDefaultProfiles()
@@ -204,7 +216,7 @@ namespace EchoesOfAincrad_Save_Manager
             Directory.CreateDirectory(GetActiveProfileDir());
         }
 
-        private string GetActiveProfile() => _profiles is not null ? _profiles.ActiveProfile : Profiles.DefaultProfile;
+        private string GetActiveProfile() => _profiles is not null ? _profiles.ActiveProfile : Profiles.DEFAULT_PROFILE;
 
         private string GetActiveProfileDir()
         {
